@@ -1,11 +1,12 @@
 package ev.aykhn.nav_model.base
 
+import android.content.Intent
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 
 abstract class BaseEffect
 
-sealed class BasicEffect : BaseEffect() {
+sealed class NavEffect : BaseEffect() {
 
     data class NavigateToEffect(
         val route: String,
@@ -22,6 +23,8 @@ sealed class BasicEffect : BaseEffect() {
 
     object NavigateBackEffect : BaseEffect()
 
-    object FinishCurrentActivity : BasicEffect()
+    object FinishCurrentActivity : NavEffect()
+
+    data class LaunchActivity(val destination: Class<*>, val finishCurrent: Boolean = false): NavEffect()
 
 }

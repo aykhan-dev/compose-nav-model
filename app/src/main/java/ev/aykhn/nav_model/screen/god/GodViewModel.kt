@@ -2,7 +2,7 @@ package ev.aykhn.nav_model.screen.god
 
 import androidx.lifecycle.SavedStateHandle
 import ev.aykhn.nav_model.base.BaseViewModel
-import ev.aykhn.nav_model.base.BasicEffect
+import ev.aykhn.nav_model.base.NavEffect
 
 class GodViewModel(savedStateHandle: SavedStateHandle) : BaseViewModel<GodState, GodEvent>() {
 
@@ -16,7 +16,7 @@ class GodViewModel(savedStateHandle: SavedStateHandle) : BaseViewModel<GodState,
     override fun onEvent(event: GodEvent) {
         when (event) {
             is GodEvent.ThanksGod -> {
-                emitEffect(BasicEffect.FinishCurrentActivity)
+                emitEffect(NavEffect.FinishCurrentActivity)
             }
         }
     }

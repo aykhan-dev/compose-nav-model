@@ -2,7 +2,7 @@ package ev.aykhn.nav_model.screen.church
 
 import ev.aykhn.nav_model.base.BaseEffect
 import ev.aykhn.nav_model.base.BaseViewModel
-import ev.aykhn.nav_model.base.BasicEffect
+import ev.aykhn.nav_model.base.NavEffect
 
 class ChurchViewModel : BaseViewModel<ChurchState, ChurchEvent>() {
 
@@ -19,7 +19,7 @@ class ChurchViewModel : BaseViewModel<ChurchState, ChurchEvent>() {
                 emitState(state.value.copy(hasWishes = hasWishes))
 
                 if (hasWishes) {
-                    emitEffect(BasicEffect.NavigateToEffect(route ="/god/${event.wishes}"))
+                    emitEffect(NavEffect.NavigateToEffect(route ="/god/${event.wishes}"))
                 }
             }
         }

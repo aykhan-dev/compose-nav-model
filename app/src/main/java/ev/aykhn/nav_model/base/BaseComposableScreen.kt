@@ -1,6 +1,7 @@
 package ev.aykhn.nav_model.base
 
 import android.app.Activity
+import android.content.Intent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -22,7 +23,7 @@ fun <State, Event> BaseComposableScreen(
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
             when (effect) {
-                is BasicEffect.NavigateToEffect -> {
+                is NavEffect.NavigateToEffect -> {
                     coroutineScope.launch {
                         navController.navigate(
                             effect.route,
@@ -31,7 +32,7 @@ fun <State, Event> BaseComposableScreen(
                         )
                     }
                 }
-                is BasicEffect.NavigateBackToEffect -> {
+                is NavEffect.NavigateBackToEffect -> {
                     coroutineScope.launch {
                         navController.popBackStack(
                             effect.destination,
@@ -39,12 +40,21 @@ fun <State, Event> BaseComposableScreen(
                         )
                     }
                 }
-                is BasicEffect.NavigateBackEffect -> {
+                is NavEffect.NavigateBackEffect -> {
                     coroutineScope.launch {
                         navController.popBackStack()
                     }
                 }
-                is BasicEffect.FinishCurrentActivity -> activity.finish()
+                is NavEffect.FinishCurrentActivity -> {
+                    activity.finish()
+                }
+                is NavEffect.LaunchActivity -> {
+                    val intent = Intent(activity, effect.destination)
+                    activity.startActivity(intent)
+                    if (effect.finishCurrent) {
+                        activity.finish()
+                    }
+                }
                 else -> onEffect?.invoke(effect)
             }
         }

@@ -2,6 +2,8 @@ package ev.aykhn.nav_model.screen.church
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -67,15 +69,40 @@ private fun ChurchScreenContent(
                 modifier = Modifier.size(90.dp),
             )
             if (state.isGodListen) {
-                TextField(
-                    value = wishes,
-                    onValueChange = { wishes = it },
+                val isError = !state.hasWishes
+
+                Column(
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
-                        .fillMaxWidth(),
-                    isError = !state.hasWishes,
-                    singleLine = true,
-                )
+                        .fillMaxWidth()
+                ) {
+                    TextField(
+                        value = wishes,
+                        onValueChange = { wishes = it },
+                        modifier = Modifier.fillMaxWidth(),
+                        isError = isError,
+                        singleLine = true,
+                        trailingIcon = {
+                            if (isError) {
+                                Icon(
+                                    imageVector = Icons.Filled.Info,
+                                    contentDescription = "Error",
+                                    tint = MaterialTheme.colors.error,
+                                )
+                            }
+                        }
+                    )
+                    if (isError) {
+                        Text(
+                            text = "Wish something",
+                            color = MaterialTheme.colors.error,
+                            style = MaterialTheme.typography.body2,
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp)
+                                .fillMaxWidth()
+                        )
+                    }
+                }
             }
             Button(onClick = {
                 if (state.isGodListen) {
